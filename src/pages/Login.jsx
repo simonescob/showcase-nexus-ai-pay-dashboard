@@ -39,9 +39,9 @@ const Login = () => {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </div>
-          <h2 className="text-4xl font-display font-extrabold bg-gradient-to-r from-primary via-accent to-vibrant bg-clip-text text-transparent mb-2">
+          {/* <h2 className="text-4xl font-display font-extrabold bg-gradient-to-r from-primary via-accent to-vibrant bg-clip-text text-transparent mb-2">
             Welcome Back
-          </h2>
+          </h2> */}
           <p className="text-lg text-gray-600 dark:text-gray-400 mb-8">
             Sign in to your ProdDash account
           </p>
