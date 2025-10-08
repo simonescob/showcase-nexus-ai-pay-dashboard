@@ -142,12 +142,13 @@ export const api = {
     }
   },
 
-  register: async (email, password, name) => {
+  register: async (email, password, firstName, lastName) => {
     try {
       const response = await apiClient.post('/api/v1/auth/register', {
         email,
         password,
-        name,
+        first_name: firstName,
+        last_name: lastName,
       });
 
       const jsonResponse = response.data;
@@ -251,17 +252,22 @@ export const api = {
     }
   },
 
-  createCheckoutSession: async (planId) => {
+
+  createPaymentIntent: async (planId, amount, paymentMethodId, email) => {
     try {
-      const response = await apiClient.post('/api/v1/billing/create-checkout-session', {
-        plan_id: planId,
+      const response = await apiClient.post('/billing/create-payment-intent', {
+        // plan: planId,
+        amount: amount,
+        payment_method_id: paymentMethodId,
+        email: email,
       });
+      // Include the plan property in the billing section of the API response
       return response.data;
     } catch (error) {
       if (error.response?.data?.detail) {
         throw new Error(error.response.data.detail);
       }
-      throw new Error('Failed to create checkout session');
+      throw new Error('Failed to create payment intent');
     }
   },
 

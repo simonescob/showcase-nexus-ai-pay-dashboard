@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../utils/api';
 import toast from 'react-hot-toast';
+import PaymentForm from './PaymentForm';
 
 const BillingTab = ({ onSubscribe, currentPlan = 'free' }) => {
   const [plans, setPlans] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedPlan, setSelectedPlan] = useState(null);
 
   useEffect(() => {
     fetchPlans();
@@ -52,6 +54,25 @@ const BillingTab = ({ onSubscribe, currentPlan = 'free' }) => {
     }
   };
 
+  const handlePlanSelect = (plan) => {
+    if (plan.price === 0) {
+      // Free plan - subscribe directly
+      onSubscribe(plan.id);
+    } else {
+      // Paid plan - show payment form
+      setSelectedPlan(plan);
+    }
+  };
+  const handlePaymentSuccess = (planId) => {
+    setSelectedPlan(null);
+    onSubscribe(planId);
+  };
+
+  const handlePaymentCancel = () => {
+    setSelectedPlan(null);
+  };
+
+
   if (loading) {
     return (
       <div className="space-y-6">
@@ -92,7 +113,7 @@ const BillingTab = ({ onSubscribe, currentPlan = 'free' }) => {
               <h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-2">{plan.name}</h3>
               <p className="text-gray-600 dark:text-gray-300 mb-4">{plan.description}</p>
               <p className="text-3xl font-bold text-primary mb-4">
-                ${plan.price}{plan.price > 0 ? '/mo' : ''}
+                ${plan.price.toFixed(2)}{plan.price > 0 ? '/mo' : ''}
               </p>
               <ul className="text-sm text-gray-600 dark:text-gray-300 mb-6">
                 {plan.features.map((feature, index) => (
@@ -104,7 +125,7 @@ const BillingTab = ({ onSubscribe, currentPlan = 'free' }) => {
               <button className="w-full bg-gray-200 text-gray-800 py-2 rounded mt-auto">Current Plan</button>
             ) : (
               <button
-                onClick={() => onSubscribe(plan.id)}
+                onClick={() => handlePlanSelect(plan)}
                 className="w-full bg-primary text-white py-2 rounded hover:bg-blue-700 mt-auto"
               >
                 {plan.price === 0 ? 'Get Started' : 'Subscribe'}
@@ -113,6 +134,14 @@ const BillingTab = ({ onSubscribe, currentPlan = 'free' }) => {
           </div>
         ))}
       </div>
+
+      {selectedPlan && (
+        <PaymentForm
+          plan={selectedPlan}
+          onSuccess={handlePaymentSuccess}
+          onCancel={handlePaymentCancel}
+        />
+      )}
     </div>
   );
 };

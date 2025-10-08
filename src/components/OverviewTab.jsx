@@ -1,7 +1,35 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { CheckSquare, BarChart3, Zap } from 'lucide-react';
+import { api } from '../utils/api';
 
 const OverviewTab = ({ user }) => {
+  const [analytics, setAnalytics] = useState({
+    tasksCompleted: 0,
+    tasksPending: 0,
+    productivityScore: 0,
+  });
+
+  useEffect(() => {
+    const fetchAnalytics = async () => {
+      try {
+        const data = await api.getAnalytics();
+        const completed = data.completed || 0;
+        const pending = data.pending || 0;
+        const productivityScore = (completed + pending) > 0 ? Math.round((completed / (completed + pending)) * 100) : 0;
+
+        setAnalytics({
+          tasksCompleted: completed,
+          tasksPending: pending,
+          productivityScore: productivityScore,
+        });
+      } catch (error) {
+        console.error('Failed to fetch analytics:', error);
+        // Keep default values on error
+      }
+    };
+
+    fetchAnalytics();
+  }, []);
   return (
     <div className="space-y-8">
       <div className="bg-white dark:bg-gray-800 p-10 rounded-3xl shadow-2xl border border-gray-200 dark:border-gray-600 relative overflow-hidden">
@@ -22,7 +50,7 @@ const OverviewTab = ({ user }) => {
               <CheckSquare className="w-6 h-6" />
             </div>
             <h3 className="text-xl font-semibold mb-3">Tasks Completed</h3>
-            <p className="text-5xl font-bold mb-2">24</p>
+            <p className="text-5xl font-bold mb-2">{analytics.tasksCompleted}</p>
             <p className="text-blue-100 text-sm">+12% from last week</p>
           </div>
         </div>
@@ -33,7 +61,7 @@ const OverviewTab = ({ user }) => {
               <BarChart3 className="w-6 h-6" />
             </div>
             <h3 className="text-xl font-semibold mb-3">Tasks Pending</h3>
-            <p className="text-5xl font-bold mb-2">8</p>
+            <p className="text-5xl font-bold mb-2">{analytics.tasksPending}</p>
             <p className="text-blue-100 text-sm">-3 from yesterday</p>
           </div>
         </div>
@@ -44,7 +72,7 @@ const OverviewTab = ({ user }) => {
               <Zap className="w-6 h-6" />
             </div>
             <h3 className="text-xl font-semibold mb-3">Productivity Score</h3>
-            <p className="text-5xl font-bold mb-2">85%</p>
+            <p className="text-5xl font-bold mb-2">{analytics.productivityScore}%</p>
             <p className="text-blue-100 text-sm">Excellent performance!</p>
           </div>
         </div>

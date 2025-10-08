@@ -189,6 +189,7 @@ const Dashboard = () => {
             </div>
           </div>
           <div className="flex items-center space-x-6">
+            {console.log('Navbar user object:', user)}
             <div className="hidden md:flex items-center space-x-3 bg-blue-50 dark:bg-blue-900 px-4 py-2 rounded-full">
               <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
                 <span className="text-white font-semibold text-sm">{user?.name?.charAt(0) || 'U'}</span>

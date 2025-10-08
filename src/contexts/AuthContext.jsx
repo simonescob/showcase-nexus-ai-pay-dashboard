@@ -21,8 +21,11 @@ export const AuthProvider = ({ children }) => {
       const storedRole = localStorage.getItem('role');
 
       if (storedToken && storedUser) {
+        const parsedUser = JSON.parse(storedUser);
+        console.log('AuthContext init - loaded user from localStorage:', parsedUser);
+        console.log('AuthContext init - user.name:', parsedUser?.name);
         setToken(storedToken);
-        setUser(JSON.parse(storedUser));
+        setUser(parsedUser);
         setRole(storedRole || 'free');
 
         // Verify token is still valid by fetching current user
@@ -64,6 +67,7 @@ export const AuthProvider = ({ children }) => {
       console.log('AuthContext login - fetching user profile');
       const userData = await api.getCurrentUser();
       console.log('AuthContext login - user data:', userData);
+      console.log('AuthContext login - userData.name:', userData?.name);
 
       console.log('AuthContext login - setting user:', userData);
       setUser(userData);
@@ -82,12 +86,12 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const register = async (email, password, name) => {
-    console.log('AuthContext register called with email:', email, 'name:', name);
+  const register = async (email, password, firstName, lastName) => {
+    console.log('AuthContext register called with email:', email, 'firstName:', firstName, 'lastName:', lastName);
     try {
       setLoading(true);
       console.log('AuthContext register - calling api.register');
-      const response = await api.register(email, password, name);
+      const response = await api.register(email, password, firstName, lastName);
       console.log('AuthContext register - api response:', response);
 
       const { token: newToken } = response;
@@ -100,6 +104,7 @@ export const AuthProvider = ({ children }) => {
       console.log('AuthContext register - fetching user profile');
       const userData = await api.getCurrentUser();
       console.log('AuthContext register - user data:', userData);
+      console.log('AuthContext register - userData.name:', userData?.name);
 
       console.log('AuthContext register - setting user:', userData);
       setUser(userData);
