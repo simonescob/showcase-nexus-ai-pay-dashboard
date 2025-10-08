@@ -28,6 +28,10 @@ export const AuthProvider = ({ children }) => {
         setUser(parsedUser);
         setRole(storedRole || 'free');
 
+        // Store first_name and last_name separately
+        if (parsedUser.first_name) localStorage.setItem('first_name', parsedUser.first_name);
+        if (parsedUser.last_name) localStorage.setItem('last_name', parsedUser.last_name);
+
         // Verify token is still valid by fetching current user
         try {
           await api.getCurrentUser();
@@ -36,6 +40,8 @@ export const AuthProvider = ({ children }) => {
           localStorage.removeItem('token');
           localStorage.removeItem('user');
           localStorage.removeItem('role');
+          localStorage.removeItem('first_name');
+          localStorage.removeItem('last_name');
           setToken(null);
           setUser(null);
           setRole('free');
@@ -75,6 +81,8 @@ export const AuthProvider = ({ children }) => {
 
       localStorage.setItem('user', JSON.stringify(userData));
       localStorage.setItem('role', userData.role || 'free');
+      if (userData.first_name) localStorage.setItem('first_name', userData.first_name);
+      if (userData.last_name) localStorage.setItem('last_name', userData.last_name);
 
       console.log('AuthContext login - success, returning { success: true }');
       return { success: true };
@@ -112,6 +120,8 @@ export const AuthProvider = ({ children }) => {
 
       localStorage.setItem('user', JSON.stringify(userData));
       localStorage.setItem('role', userData.role || 'free');
+      if (userData.first_name) localStorage.setItem('first_name', userData.first_name);
+      if (userData.last_name) localStorage.setItem('last_name', userData.last_name);
 
       console.log('AuthContext register - success, returning { success: true }');
       return { success: true };
@@ -130,6 +140,8 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     localStorage.removeItem('role');
+    localStorage.removeItem('first_name');
+    localStorage.removeItem('last_name');
     toast.success('Logged out successfully');
   };
 
@@ -148,6 +160,8 @@ export const AuthProvider = ({ children }) => {
       const updatedUser = await api.getCurrentUser();
       setUser(updatedUser);
       localStorage.setItem('user', JSON.stringify(updatedUser));
+      if (updatedUser.first_name) localStorage.setItem('first_name', updatedUser.first_name);
+      if (updatedUser.last_name) localStorage.setItem('last_name', updatedUser.last_name);
       return updatedUser;
     } catch (error) {
       toast.error('Failed to refresh user profile');

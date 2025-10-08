@@ -8,6 +8,7 @@ const OverviewTab = ({ user }) => {
     tasksPending: 0,
     productivityScore: 0,
   });
+  const [firstName, setFirstName] = useState('');
 
   useEffect(() => {
     const fetchAnalytics = async () => {
@@ -29,13 +30,17 @@ const OverviewTab = ({ user }) => {
     };
 
     fetchAnalytics();
+
+    // Load first_name from localStorage
+    const storedFirstName = localStorage.getItem('first_name') || '';
+    setFirstName(storedFirstName);
   }, []);
   return (
     <div className="space-y-8">
       <div className="bg-white dark:bg-gray-800 p-10 rounded-3xl shadow-2xl border border-gray-200 dark:border-gray-600 relative overflow-hidden">
         <div className="relative z-10">
           <h2 className="text-4xl font-display font-bold text-blue-600 dark:text-blue-400 mb-4">
-            Welcome back{user?.name ? `, ${user.name}` : ''}!
+            Welcome back{firstName ? `, ${firstName}` : ''}!
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-300 leading-relaxed">
             Here's an overview of your productivity metrics and achievements.

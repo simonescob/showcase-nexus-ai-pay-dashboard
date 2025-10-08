@@ -23,9 +23,19 @@ const Dashboard = () => {
   const [newTaskDescription, setNewTaskDescription] = useState('');
   const [analyticsData, setAnalyticsData] = useState([]);
   const [analyticsLoading, setAnalyticsLoading] = useState(false);
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
 
   // Use the custom tasks hook
   const { tasks, loading: tasksLoading, addTask: addTaskToList, toggleTask, deleteTask } = useTasks(user, activeTab);
+
+  // Load first_name and last_name from localStorage
+  useEffect(() => {
+    const storedFirstName = localStorage.getItem('first_name') || '';
+    const storedLastName = localStorage.getItem('last_name') || '';
+    setFirstName(storedFirstName);
+    setLastName(storedLastName);
+  }, []);
 
   // Fetch analytics data when analytics tab is active
   useEffect(() => {
@@ -192,9 +202,9 @@ const Dashboard = () => {
             {console.log('Navbar user object:', user)}
             <div className="hidden md:flex items-center space-x-3 bg-blue-50 dark:bg-blue-900 px-4 py-2 rounded-full">
               <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
-                <span className="text-white font-semibold text-sm">{user?.name?.charAt(0) || 'U'}</span>
+                <span className="text-white font-semibold text-sm">{firstName?.charAt(0) || 'U'}</span>
               </div>
-              <span className="text-gray-700 dark:text-gray-300 font-medium">{user?.name || 'User'}</span>
+              <span className="text-gray-700 dark:text-gray-300 font-medium">{firstName && lastName ? `${firstName} ${lastName}` : 'User'}</span>
             </div>
             <button
               onClick={logout}
