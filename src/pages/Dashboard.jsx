@@ -8,6 +8,7 @@ import AnalyticsTab from '../components/AnalyticsTab';
 import TasksTab from '../components/TasksTab';
 import SettingsTab from '../components/SettingsTab';
 import BillingTab from '../components/BillingTab';
+import Logo from '../components/Logo';
 import { api } from '../utils/api';
 import { useTasks } from '../hooks/useTasks';
 
@@ -151,8 +152,11 @@ const Dashboard = () => {
       {/* Sidebar */}
       <div className="w-64 bg-white dark:bg-gray-800 shadow-2xl border-r border-gray-200 dark:border-gray-700">
         <div className="p-8">
-          <h2 className="text-3xl font-display font-bold text-blue-600 dark:text-blue-400">ProdDash</h2>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">Productivity Dashboard</p>
+          <div className="flex items-center space-x-3 mb-2">
+            <Logo size="large" />
+            <h2 className="text-3xl font-display font-bold text-blue-600 dark:text-blue-400">ProdDash</h2>
+          </div>
+          <p className="text-sm text-gray-500 dark:text-gray-400">Productivity Dashboard</p>
         </div>
         <nav className="mt-8 px-4">
           {tabs.map((tab, index) => {
@@ -192,6 +196,7 @@ const Dashboard = () => {
         {/* Top navbar */}
         <header className="bg-white dark:bg-gray-800 shadow-2xl px-8 py-6 flex justify-between items-center border-b border-gray-200 dark:border-gray-700">
           <div className="flex items-center space-x-6">
+            <Logo size="default" />
             <h1 className="text-2xl font-display font-semibold text-gray-900 dark:text-white">Dashboard</h1>
             <div className="hidden md:flex items-center space-x-2 bg-gray-100 dark:bg-gray-700 px-4 py-2 rounded-full">
               <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>

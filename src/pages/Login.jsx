@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { Link, useNavigate } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import { useAuth } from '../contexts/AuthContext';
+import Logo from '../components/Logo';
 
 const loginSchema = z.object({
   email: z.string().email('Invalid email address'),
@@ -29,86 +30,78 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-purple-900 dark:to-pink-900 py-12 px-4 sm:px-6 lg:px-8 animate-fade-in relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-accent/5 to-vibrant/5 animate-pulse-slow"></div>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
       <Toaster />
-      <div className="max-w-md w-full space-y-8 bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl p-10 rounded-3xl shadow-2xl border border-gray-200/50 dark:border-gray-700/50 relative z-10">
+      <div className="absolute top-4 left-4">
+        <Link to="/" className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary text-sm font-medium">
+          ← Back to Home
+        </Link>
+      </div>
+      <div className="max-w-md w-full space-y-8 bg-white dark:bg-gray-800 p-10 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700">
         <div className="text-center">
-          <div className="w-16 h-16 bg-gradient-to-r from-primary to-accent rounded-2xl mx-auto mb-6 flex items-center justify-center animate-float">
-            <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-          </div>
-          {/* <h2 className="text-4xl font-display font-extrabold bg-gradient-to-r from-primary via-accent to-vibrant bg-clip-text text-transparent mb-2">
+          <Link to="/" className="inline-block mb-6">
+            <Logo className="h-12 w-auto" />
+          </Link>
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
             Welcome Back
-          </h2> */}
-          <p className="text-lg text-gray-600 dark:text-gray-400 mb-8">
-            Sign in to your ProdDash account
-          </p>
-          <p className="text-sm text-gray-500 dark:text-gray-400">
-            Or{' '}
-            <Link to="/register" className="font-semibold text-primary hover:text-accent transition-all duration-300 hover:underline">
-              create a new account
+          </h2>
+          <p className="mt-2 text-gray-600 dark:text-gray-400">
+            Don't have an account?{' '}
+            <Link to="/register" className="font-medium text-primary hover:underline">
+              Sign up
             </Link>
           </p>
         </div>
-        <form className="mt-8 space-y-8" onSubmit={handleSubmit(onSubmit)}>
-          <div className="space-y-6">
-            <div className="relative">
-              <label htmlFor="email" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+        <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
+          <div className="space-y-4">
+            <div>
+              <label htmlFor="email" className="sr-only">
                 Email address
               </label>
-              <div className="relative">
-                <input
-                  {...register('email')}
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  className="appearance-none relative block w-full px-5 py-4 border-2 border-gray-200 dark:border-gray-600 placeholder-gray-400 text-gray-900 dark:text-white rounded-2xl bg-gray-50/50 dark:bg-gray-700/50 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary focus:bg-white dark:focus:bg-gray-800 transition-all duration-300 text-lg"
-                  placeholder="Enter your email address"
-                />
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-primary/5 to-accent/5 opacity-0 focus-within:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
-              </div>
-              {errors.email && <p className="text-error text-sm mt-2 animate-slide-up">{errors.email.message}</p>}
+              <input
+                {...register('email')}
+                id="email"
+                name="email"
+                type="email"
+                autoComplete="email"
+                required
+                className="appearance-none relative block w-full px-4 py-3 border border-gray-300 dark:border-gray-600 placeholder-gray-500 text-gray-900 dark:text-white rounded-lg bg-gray-50 dark:bg-gray-700 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                placeholder="Email address"
+              />
+              {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
             </div>
-            <div className="relative">
-              <label htmlFor="password" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+            <div>
+              <label htmlFor="password" className="sr-only">
                 Password
               </label>
-              <div className="relative">
-                <input
-                  {...register('password')}
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
-                  required
-                  className="appearance-none relative block w-full px-5 py-4 border-2 border-gray-200 dark:border-gray-600 placeholder-gray-400 text-gray-900 dark:text-white rounded-2xl bg-gray-50/50 dark:bg-gray-700/50 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary focus:bg-white dark:focus:bg-gray-800 transition-all duration-300 text-lg"
-                  placeholder="Enter your password"
-                />
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-primary/5 to-accent/5 opacity-0 focus-within:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
-              </div>
-              {errors.password && <p className="text-error text-sm mt-2 animate-slide-up">{errors.password.message}</p>}
+              <input
+                {...register('password')}
+                id="password"
+                name="password"
+                type="password"
+                autoComplete="current-password"
+                required
+                className="appearance-none relative block w-full px-4 py-3 border border-gray-300 dark:border-gray-600 placeholder-gray-500 text-gray-900 dark:text-white rounded-lg bg-gray-50 dark:bg-gray-700 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                placeholder="Password"
+              />
+              {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>}
             </div>
           </div>
 
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-end">
             <div className="text-sm">
-              <a href="#" className="font-semibold text-primary hover:text-accent transition-all duration-300 hover:underline">
+              <a href="#" className="font-medium text-primary hover:underline">
                 Forgot your password?
               </a>
             </div>
           </div>
 
-          <div className="pt-4">
+          <div>
             <button
               type="submit"
-              className="group relative w-full flex justify-center py-5 px-6 border border-transparent text-xl font-semibold rounded-2xl text-white bg-gradient-to-r from-primary via-accent to-primary hover:scale-105 hover:shadow-glow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all duration-500 shadow-xl overflow-hidden"
+              className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
             >
-              <span className="relative z-10">Sign In</span>
-              <div className="absolute inset-0 bg-gradient-to-r from-accent via-vibrant to-primary opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              Sign In
             </button>
           </div>
         </form>
