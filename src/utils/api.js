@@ -3,6 +3,9 @@ import axios from 'axios';
 // Get base URL from environment variables
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
 
+// Log when VITE_API_BASE_URL is loaded and its value
+console.log('VITE_API_BASE_URL loaded:', API_BASE_URL);
+
 // Rate limiting configuration
 const RATE_LIMIT_DELAY = 1000; // 1 second between requests
 const MAX_RETRIES = 3;
