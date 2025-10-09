@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { BarChart3, Zap, Users, Shield, Quote, Star, ArrowRight, CheckCircle, TrendingUp, Clock, Globe } from 'lucide-react';
+import { BarChart3, Zap, Users, Shield, Quote, Star, ArrowRight, CheckCircle, TrendingUp, Clock, Globe, Menu, X } from 'lucide-react';
 import Modal from '../components/Modal';
 import Logo from '../components/Logo';
 
 const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -114,6 +115,52 @@ const Home = () => {
               </ul>
             </nav>
 
+            {/* Mobile Menu */}
+            {isMenuOpen && (
+              <div className="md:hidden absolute top-full left-0 right-0 bg-white dark:bg-gray-900/95 backdrop-blur-xl border-t border-gray-200 dark:border-gray-700 shadow-lg z-50">
+                <nav className="container mx-auto px-4 py-4">
+                  <ul className="flex flex-col space-y-4">
+                    <li>
+                      <a
+                        href="#features"
+                        onClick={() => setIsMenuOpen(false)}
+                        className="block text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors font-medium py-2"
+                      >
+                        Features
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#pricing"
+                        onClick={() => setIsMenuOpen(false)}
+                        className="block text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors font-medium py-2"
+                      >
+                        Pricing
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#testimonials"
+                        onClick={() => setIsMenuOpen(false)}
+                        className="block text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors font-medium py-2"
+                      >
+                        Testimonials
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#contact"
+                        onClick={() => setIsMenuOpen(false)}
+                        className="block text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors font-medium py-2"
+                      >
+                        Contact
+                      </a>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+            )}
+
             {/* CTA Buttons */}
             <div className="flex items-center space-x-4">
               <Link
@@ -129,36 +176,58 @@ const Home = () => {
                 Start Free Trial
               </Link>
             </div>
+
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="md:hidden p-2 rounded-md text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary"
+              aria-label="Toggle menu"
+            >
+              {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
           </nav>
         </div>
       </header>
 
       {/* Hero Section */}
-      <section className="relative z-10 container mx-auto px-4 py-12 md:py-24 text-center">
-        <div className="max-w-4xl mx-auto">
-          <h1 className="text-5xl md:text-7xl font-bold text-gray-900 dark:text-white mb-6 animate-slide-up leading-tight">
-            Manage Your Projects, <br />
-            <span className="text-primary">Not Just Your Tasks</span>
-          </h1>
-          
-          <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-10 max-w-3xl mx-auto leading-relaxed animate-slide-up" style={{ animationDelay: '0.2s' }}>
-            Bring your team together to build better products. From planning to execution, ProdDash provides the tools you need to ship on time.
-          </p>
-          
-          <div className="flex justify-center items-center gap-4 mb-16 animate-slide-up" style={{ animationDelay: '0.4s' }}>
-            <Link
-              to="/register"
-              className="group bg-primary text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-primary/90 transition-all duration-300 shadow-lg flex items-center justify-center"
-            >
-              Get Started for Free
-              <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </Link>
+      <section className="relative z-10 container mx-auto px-4 py-12 md:py-24">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="text-center lg:text-left">
+            <h1 className="text-5xl md:text-7xl font-bold text-gray-900 dark:text-white mb-6 animate-slide-up leading-tight">
+              Manage Your Projects, <br />
+              <span className="text-primary">Not Just Your Tasks</span>
+            </h1>
+
+            <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-10 max-w-3xl mx-auto lg:mx-0 leading-relaxed animate-slide-up" style={{ animationDelay: '0.2s' }}>
+              Bring your team together to build better products. From planning to execution, ProdDash provides the tools you need to ship on time.
+            </p>
+
+            <div className="flex justify-center lg:justify-start items-center gap-4 mb-16 animate-slide-up" style={{ animationDelay: '0.4s' }}>
+              <Link
+                to="/register"
+                className="group bg-primary text-white px-8 py-4 rounded-xl font-semibold text-lg hover:bg-primary/90 hover:scale-105 transition-all duration-300 shadow-lg flex items-center justify-center"
+              >
+                Get Started for Free
+                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </div>
+          </div>
+          <div className="relative animate-fade-in" style={{ animationDelay: '0.6s' }}>
+            <img
+              src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
+              alt="Team collaborating on project management dashboard"
+              className="w-full h-auto rounded-2xl shadow-2xl hover:shadow-glow transition-shadow duration-500"
+              loading="lazy"
+            />
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-4 text-center lg:text-left">
+              Photo by Christina Morillo on Unsplash
+            </p>
           </div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section className="relative z-10 container mx-auto px-4 py-16 md:py-24">
+      <section id="features" className="relative z-10 container mx-auto px-4 py-16 md:py-24">
         <div className="text-center max-w-3xl mx-auto mb-16 animate-slide-up">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
             Everything You Need, Nothing You Don't
@@ -190,7 +259,7 @@ const Home = () => {
       </section>
 
       {/* Testimonials Section */}
-      <section className="relative z-10 bg-gray-100 dark:bg-gray-800 py-16 md:py-24">
+      <section id="testimonials" className="relative z-10 bg-gray-100 dark:bg-gray-800 py-16 md:py-24">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto mb-16 animate-slide-up">
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
@@ -234,7 +303,7 @@ const Home = () => {
       </section>
 
       {/* Pricing Section */}
-      <section className="relative z-10 container mx-auto px-4 py-16 md:py-24">
+      <section id="pricing" className="relative z-10 container mx-auto px-4 py-16 md:py-24">
         <div className="text-center max-w-3xl mx-auto mb-16 animate-slide-up">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
             Pricing for Every Team
@@ -348,7 +417,7 @@ const Home = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="relative z-10 bg-gray-50 dark:bg-gray-900 py-16 md:py-24 text-center">
+      <section id="contact" className="relative z-10 bg-gray-50 dark:bg-gray-900 py-16 md:py-24 text-center">
         <div className="container mx-auto px-4">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6 animate-slide-up">
             Ready to Get Started?
